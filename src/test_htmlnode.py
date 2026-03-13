@@ -1,4 +1,4 @@
-from src.htmlnode import HTMLNode, LeafNode, ParentNode
+from src.htmlnode import HTMLNode, LeafNode, ParentNode, extract_title
 import unittest
 
 
@@ -64,3 +64,29 @@ class TestParentNode(unittest.TestCase):
             parent_node.to_html(),
             "<div><span><b>grandchild</b></span></div>",
         )
+
+class TestExtractTitle(unittest.TestCase):
+    def test_extract_title(self):
+        markdown = "# Title"
+        self.assertEqual(extract_title(markdown), "Title")
+
+    def test_extract_title_multiple_lines(self):
+        markdown = """
+# Title 1
+         
+This is some text
+
+## Title 2
+
+This is a subtitle
+
+# Title 3
+
+This is a third title but will not be returned
+"""
+        self.assertEqual(extract_title(markdown), "Title 1")
+
+    def test_extract_title_no_title(self):
+        markdown = "This is some text"
+        with self.assertRaises(ValueError):
+            extract_title(markdown)
