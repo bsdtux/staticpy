@@ -1,1 +1,1 @@
-python3 src/main.py "/staticpy/"
+python3 -m src.main "/staticpy/"
